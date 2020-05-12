@@ -1,11 +1,15 @@
-import Vue from 'vue'
+import { mount } from '@vue/test-utils'
 import LoginPage from '@/views/LoginPage'
 
 describe('LoginPage.vue', () => {
+  let wrapper
+
+  beforeEach(()=> {
+    wrapper = mount(LoginPage)
+  })
+
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(LoginPage)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('h1').textContent)
+    expect(wrapper.find('h1').text())
       .toEqual('TrelloClone')
   })
 })
