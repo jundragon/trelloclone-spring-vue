@@ -1,7 +1,7 @@
 <template>
-    <div>
-      <h1>TrelloClone</h1>
-    </div>
+  <div>
+    <h1>TrelloClone</h1>
+  </div>
 </template>
 
 <script>
