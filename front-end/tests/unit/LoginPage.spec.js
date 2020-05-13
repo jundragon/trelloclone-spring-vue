@@ -4,7 +4,7 @@ import LoginPage from '@/views/LoginPage'
 describe('LoginPage.vue', () => {
   let wrapper
 
-  beforeEach(()=> {
+  beforeEach(() => {
     wrapper = mount(LoginPage)
   })
 

@@ -1,7 +1,15 @@
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import RegisterPage from '@/views/RegisterPage'
+import VueRouter from 'vue-router'
 
 describe('RegisterPage.vue', () => {
+  // vm.$router에 접근할 수 있도록 Vue Router 추가
+  const localVue = createLocalVue()
+  localVue.use(VueRouter)
+  const router = new VueRouter()
+
+  // registrationService 의 mock
+  jest.mock('@/services/registration')
 
   let wrapper
   let fieldUsername
@@ -10,11 +18,18 @@ describe('RegisterPage.vue', () => {
   let buttonSubmit
 
   beforeEach(() => {
-    wrapper = mount(RegisterPage)
+    wrapper = mount(RegisterPage, {
+      localVue,
+      router
+    })
     fieldUsername = wrapper.find('#username')
     fieldEmailAddress = wrapper.find('#emailAddress')
     fieldPassword = wrapper.find('#password')
     buttonSubmit = wrapper.find('form button[type="submit"]')
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   /**
@@ -74,10 +89,38 @@ describe('RegisterPage.vue', () => {
    */
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
-    wrapper.setMethods({submitForm: stub})
+    wrapper.setMethods({ submitForm: stub })
     buttonSubmit.trigger('submit')
 
     expect(stub)
       .toBeCalled()
+  })
+
+  /**
+   * 성공적인 회원가입 검증 테스트
+   */
+  it('should register when it is a new user', () => {
+    const stub = jest.fn()
+    wrapper.vm.$router.push = stub
+    wrapper.vm.form.username = 'sunny'
+    wrapper.vm.form.emailAddress = 'sunny@local'
+    wrapper.vm.form.password = 'Jest!'
+    wrapper.vm.submitForm()
+    wrapper.vm.$nextTick(() => {
+      expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
+    })
+  })
+
+  /**
+   * 회원가입 실패 검증 테스트
+   */
+  it('should fail it is not a new user', () => {
+    // mock 에서는 오직 sunny@local 만 새로운 사용자
+    wrapper.vm.form.emailAddress = 'ted@local'
+    expect(wrapper.find('.failed').isVisible()).toBe(false)
+    wrapper.vm.submitForm()
+    wrapper.vm.$nextTick(null, () => {
+      expect(wrapper.find('.failed').isVisible()).toBe(true)
+    })
   })
 })
