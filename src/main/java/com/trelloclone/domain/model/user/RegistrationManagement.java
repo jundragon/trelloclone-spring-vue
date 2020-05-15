@@ -5,7 +5,6 @@ import com.trelloclone.domain.model.user.exception.EmailAddressExistsException;
 import com.trelloclone.domain.model.user.exception.RegistrationException;
 import com.trelloclone.domain.model.user.exception.UsernameExistsException;
 import com.trelloclone.domain.model.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +22,7 @@ public class RegistrationManagement {
         this.passwordEncryptor = passwordEncryptor;
     }
 
-    public User register(String username, String emailAddress, String password)
-            throws RegistrationException {
+    public User register(String username, String emailAddress, String password) throws RegistrationException {
         User existingUser = repository.findByUsername(username);
         if (existingUser != null) {
             throw new UsernameExistsException();
