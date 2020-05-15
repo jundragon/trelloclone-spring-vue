@@ -1,9 +1,9 @@
 package com.trelloclone.web.api;
 
 import com.trelloclone.domain.application.UserService;
-import com.trelloclone.domain.model.user.EmailAddressExistsException;
-import com.trelloclone.domain.model.user.RegistrationException;
-import com.trelloclone.domain.model.user.UsernameExistsException;
+import com.trelloclone.domain.model.user.exception.EmailAddressExistsException;
+import com.trelloclone.domain.model.user.exception.RegistrationException;
+import com.trelloclone.domain.model.user.exception.UsernameExistsException;
 import com.trelloclone.web.payload.RegistrationPayload;
 import com.trelloclone.web.result.ApiResult;
 import com.trelloclone.web.result.Result;

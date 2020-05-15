@@ -1,7 +1,7 @@
 package com.trelloclone.domain.application;
 
 import com.trelloclone.domain.application.commands.RegistrationCommand;
-import com.trelloclone.domain.model.user.RegistrationException;
+import com.trelloclone.domain.model.user.exception.RegistrationException;
 
 public interface UserService {
 
