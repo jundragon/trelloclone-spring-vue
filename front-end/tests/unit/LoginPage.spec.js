@@ -73,7 +73,7 @@ describe('LoginPage.vue', () => {
 
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
-    wrapper.setMethods({submitForm: stub})
+    wrapper.setMethods({ submitForm: stub })
     buttonSubmit.trigger('submit')
 
     expect(stub).toBeCalled()
@@ -89,7 +89,7 @@ describe('LoginPage.vue', () => {
     await wrapper.vm.submitForm()
     expect(authenticateSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({name: 'HomePage'})
+    expect(stub).toHaveBeenCalledWith({ name: 'HomePage' })
   })
 
   it('should fail when credentials are invalid', async () => {
