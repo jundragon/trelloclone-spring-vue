@@ -9,4 +9,5 @@ public abstract class AbstractBaseEntity implements Serializable {
     public abstract int hashCode();
 
     public abstract String toString();
+
 }

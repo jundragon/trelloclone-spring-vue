@@ -6,28 +6,44 @@ import com.trelloclone.domain.common.event.DomainEventPublisher;
 import com.trelloclone.domain.common.mail.MailManager;
 import com.trelloclone.domain.common.mail.MessageVariable;
 import com.trelloclone.domain.model.user.RegistrationManagement;
+import com.trelloclone.domain.model.user.SimpleUser;
 import com.trelloclone.domain.model.user.User;
 import com.trelloclone.domain.model.user.event.UserRegisteredEvent;
 import com.trelloclone.domain.model.user.exception.RegistrationException;
+import com.trelloclone.domain.model.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final RegistrationManagement registrationManagement;
     private final DomainEventPublisher domainEventPublisher;
     private final MailManager mailManager;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(RegistrationManagement registrationManagement,
-                           DomainEventPublisher domainEventPublisher,
-                           MailManager mailManager) {
-        this.registrationManagement = registrationManagement;
-        this.domainEventPublisher = domainEventPublisher;
-        this.mailManager = mailManager;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (StringUtils.isEmpty(username)) {
+            throw new UsernameNotFoundException("No user found");
+        }
+        User user;
+        if (username.contains("@")) {
+            user = userRepository.findByEmailAddress(username);
+        } else {
+            user = userRepository.findByUsername(username);
+        }
+        if (user == null) {
+            throw new UsernameNotFoundException("No user found by `" + username + "`");
+        }
+        return new SimpleUser(user);
     }
 
     @Override
@@ -46,7 +62,7 @@ public class UserServiceImpl implements UserService {
     private void sendWelcomeMessage(User user) {
         mailManager.send(
                 user.getEmailAddress(),
-                "Welcome to TaskAgile",
+                "Welcome to TrelloClone",
                 "welcome.ftl",
                 MessageVariable.from("user", user)
         );

@@ -2,8 +2,9 @@ package com.trelloclone.domain.application;
 
 import com.trelloclone.domain.application.commands.RegistrationCommand;
 import com.trelloclone.domain.model.user.exception.RegistrationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     /**
      * Register a new user with username, email address, and password.

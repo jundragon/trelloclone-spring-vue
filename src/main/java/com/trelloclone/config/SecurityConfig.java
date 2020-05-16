@@ -1,5 +1,9 @@
 package com.trelloclone.config;
 
+import com.trelloclone.web.api.authenticate.AuthenticationFilter;
+import com.trelloclone.web.api.authenticate.SimpleAuthenticationFailureHandler;
+import com.trelloclone.web.api.authenticate.SimpleAuthenticationSuccessHandler;
+import com.trelloclone.web.api.authenticate.SimpleLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC).permitAll()
                 .anyRequest().authenticated();
 
-        http.formLogin()
+        http.addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 .loginPage("/login");
 
         http.logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logged-out"); // 기본 경로 "/login?success"
+                .logoutSuccessHandler(logoutSuccessHandler());
 
         http.csrf().disable();
     }
@@ -36,6 +45,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/**", "/js/**", "/css/**", "/images/**", "/favicon.ico");
     }
+
+    @Bean
+    public AuthenticationFilter authenticationFilter() throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationFilter;
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new SimpleAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new SimpleAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new SimpleLogoutSuccessHandler();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
