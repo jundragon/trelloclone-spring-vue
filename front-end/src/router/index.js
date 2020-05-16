@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import HomePage from '@/views/HomePage'
 import LoginPage from '@/views/LoginPage'
 import RegisterPage from '@/views/RegisterPage'
 
 Vue.use(VueRouter)
 
 const routes = [{
+  path: '/',
+  name: 'HomePage',
+  component: HomePage
+},
+{
   path: '/login',
   name: 'LoginPage',
   component: LoginPage
@@ -14,8 +20,7 @@ const routes = [{
   path: '/register',
   name: 'RegisterPage',
   component: RegisterPage
-}
-]
+}]
 
 const router = new VueRouter({
   mode: 'history',
