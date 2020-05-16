@@ -89,7 +89,7 @@ describe('LoginPage.vue', () => {
     await wrapper.vm.submitForm()
     expect(authenticateSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({ name: 'HomePage' })
+    expect(stub).toHaveBeenCalledWith({ name: 'home' })
   })
 
   it('should fail when credentials are invalid', async () => {

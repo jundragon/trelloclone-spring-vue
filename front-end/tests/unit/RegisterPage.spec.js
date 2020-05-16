@@ -114,7 +114,7 @@ describe('RegisterPage.vue', () => {
     await wrapper.vm.submitForm()
     expect(registerSpy).toBeCalled()
     await wrapper.vm.$nextTick()
-    expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
+    expect(stub).toHaveBeenCalledWith({ name: 'login' })
   })
 
   /**
