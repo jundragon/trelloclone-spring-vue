@@ -67,12 +67,9 @@ describe('RegisterPage.vue', () => {
    * 데이터 모델 초깃값 테스트
    */
   it('should contain data model with initial values', () => {
-    expect(wrapper.vm.form.username)
-      .toEqual('')
-    expect(wrapper.vm.form.emailAddress)
-      .toEqual('')
-    expect(wrapper.vm.form.password)
-      .toEqual('')
+    expect(wrapper.vm.form.username).toEqual('')
+    expect(wrapper.vm.form.emailAddress).toEqual('')
+    expect(wrapper.vm.form.password).toEqual('')
   })
 
   /**
@@ -87,12 +84,9 @@ describe('RegisterPage.vue', () => {
     fieldEmailAddress.setValue(emailAddress)
     fieldPassword.setValue(password)
 
-    expect(wrapper.vm.form.username)
-      .toEqual(username)
-    expect(wrapper.vm.form.emailAddress)
-      .toEqual(emailAddress)
-    expect(wrapper.vm.form.password)
-      .toEqual(password)
+    expect(wrapper.vm.form.username).toEqual(username)
+    expect(wrapper.vm.form.emailAddress).toEqual(emailAddress)
+    expect(wrapper.vm.form.password).toEqual(password)
   })
 
   /**
@@ -103,8 +97,7 @@ describe('RegisterPage.vue', () => {
     wrapper.setMethods({ submitForm: stub })
     buttonSubmit.trigger('submit')
 
-    expect(stub)
-      .toBeCalled()
+    expect(stub).toBeCalled()
   })
 
   /**
