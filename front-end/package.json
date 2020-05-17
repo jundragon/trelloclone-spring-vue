@@ -9,8 +9,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "test:integration": "vue-cli-service test:e2e --url http://localhost:8080/",
     "test": "npm run test:unit && npm run test:e2e",
-    "fix": "npm run lint --fix",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "fix": "npm run lint --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",

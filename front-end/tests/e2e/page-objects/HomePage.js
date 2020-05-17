@@ -4,7 +4,9 @@ module.exports = {
   },
   elements: {
     pageTitle: {
-      selector: 'h1.page-title'
+      logoImage: {
+        selector: '.logo img'
+      }
     }
   }
 }
