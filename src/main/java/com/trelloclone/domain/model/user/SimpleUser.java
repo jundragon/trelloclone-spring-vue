@@ -1,5 +1,6 @@
 package com.trelloclone.domain.model.user;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 public class SimpleUser implements UserDetails, Serializable {
 
-    private final long userId;
+    private final UserId userId;
     private final String username;
     private final String password;
 
@@ -77,5 +78,9 @@ public class SimpleUser implements UserDetails, Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public UserId getUserId() {
+        return userId;
     }
 }

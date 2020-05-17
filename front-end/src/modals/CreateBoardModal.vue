@@ -35,67 +35,67 @@
 </template>
 
 <script>
-  import $ from 'jquery'
-  import { required } from 'vuelidate/lib/validators'
-  import boardService from '@/services/boards'
+import $ from 'jquery'
+import { required } from 'vuelidate/lib/validators'
+import boardService from '@/services/boards'
 
-  export default {
-    name: 'CreateBoardModal',
-    props: ['teamId'],
-    data () {
-      return {
-        board: {
-          name: '',
-          description: ''
-        },
-        errorMessage: ''
-      }
-    },
-    validations: {
+export default {
+  name: 'CreateBoardModal',
+  props: ['teamId'],
+  data () {
+    return {
       board: {
-        name: {
-          required
-        },
-        description: {
-          required
-        }
-      }
-    },
-    mounted () {
-      $('#createBoardModal').on('shown.bs.modal', () => {
-        $('#boardNameInput').trigger('focus')
-      })
-    },
-    methods: {
-      saveBoard () {
-        this.$v.$touch()
-        if (this.$v.$invalid) {
-          return
-        }
-
-        const board = {
-          teamId: this.teamId,
-          name: this.board.name,
-          description: this.board.description
-        }
-
-        boardService.create(board).then((createdBoard) => {
-          this.$store.dispatch('addBoard', createdBoard)
-          this.$emit('created', createdBoard.id)
-          this.close()
-        }).catch(error => {
-          this.errorMessage = error.message
-        })
+        name: '',
+        description: ''
       },
-      close () {
-        this.$v.$reset()
-        this.board.name = ''
-        this.board.description = ''
-        this.errorMessage = ''
-        $('#createBoardModal').modal('hide')
+      errorMessage: ''
+    }
+  },
+  validations: {
+    board: {
+      name: {
+        required
+      },
+      description: {
+        required
       }
     }
+  },
+  mounted () {
+    $('#createBoardModal').on('shown.bs.modal', () => {
+      $('#boardNameInput').trigger('focus')
+    })
+  },
+  methods: {
+    saveBoard () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      const board = {
+        teamId: this.teamId,
+        name: this.board.name,
+        description: this.board.description
+      }
+
+      boardService.create(board).then((createdBoard) => {
+        this.$store.dispatch('addBoard', createdBoard)
+        this.$emit('created', createdBoard.id)
+        this.close()
+      }).catch(error => {
+        this.errorMessage = error.message
+      })
+    },
+    close () {
+      this.$v.$reset()
+      this.board.name = ''
+      this.board.description = ''
+      this.errorMessage = ''
+      $('#createBoardModal').modal('hide')
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

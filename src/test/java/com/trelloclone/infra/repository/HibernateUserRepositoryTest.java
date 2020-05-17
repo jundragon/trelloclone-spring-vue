@@ -28,7 +28,7 @@ class HibernateUserRepositoryTest {
         }
     }
 
-    @Autowired @Qualifier("UserRepository") UserRepository repository;
+    @Autowired UserRepository repository;
 
     @Test
     public void save_nullUsernameUser_shouldFail() {

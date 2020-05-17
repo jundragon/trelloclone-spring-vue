@@ -51,7 +51,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomePage',
-  data() {
+  data () {
     return {
       selectedTeamId: 0
     }
@@ -79,7 +79,7 @@ export default {
       $('#createTeamModal').modal('show')
     },
     onBoardCreated (boardId) {
-      this.$router.push({name: 'board', params: {boardId: boardId}})
+      this.$router.push({ name: 'board', params: { boardId: boardId } })
     }
   }
 }

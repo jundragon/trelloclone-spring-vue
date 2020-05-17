@@ -17,7 +17,7 @@ public class RegistrationManagement {
     private UserRepository repository;
     private PasswordEncryptor passwordEncryptor;
 
-    public RegistrationManagement(@Qualifier("UserRepository") UserRepository repository, PasswordEncryptor passwordEncryptor) {
+    public RegistrationManagement(UserRepository repository, PasswordEncryptor passwordEncryptor) {
         this.repository = repository;
         this.passwordEncryptor = passwordEncryptor;
     }

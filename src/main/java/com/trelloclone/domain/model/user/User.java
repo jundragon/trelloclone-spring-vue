@@ -36,6 +36,10 @@ public class User extends AbstractBaseEntity {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    public UserId getId() {
+        return new UserId(id);
+    }
+
     /**
      * Create new user during registration
      */

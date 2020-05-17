@@ -29,54 +29,54 @@
 </template>
 
 <script>
-  import $ from 'jquery'
-  import { required } from 'vuelidate/lib/validators'
-  import teamService from '@/services/teams'
+import $ from 'jquery'
+import { required } from 'vuelidate/lib/validators'
+import teamService from '@/services/teams'
 
-  export default {
-    name: 'CreateTeamModal',
-    data () {
-      return {
-        team: {
-          name: ''
-        },
-        errorMessage: ''
-      }
-    },
-    validations: {
+export default {
+  name: 'CreateTeamModal',
+  data () {
+    return {
       team: {
-        name: {
-          required
-        }
-      }
-    },
-    mounted () {
-      $('#createTeamModal').on('shown.bs.modal', () => {
-        $('#teamNameInput').trigger('focus')
-      })
-    },
-    methods: {
-      saveTeam () {
-        this.$v.$touch()
-        if (this.$v.$invalid) {
-          return
-        }
-
-        teamService.create(this.team).then((createdTeam) => {
-          this.$store.dispatch('addTeam', createdTeam)
-          this.close()
-        }).catch(error => {
-          this.errorMessage = error.message
-        })
+        name: ''
       },
-      close () {
-        this.$v.$reset()
-        this.team.name = ''
-        this.errorMessage = ''
-        $('#createTeamModal').modal('hide')
+      errorMessage: ''
+    }
+  },
+  validations: {
+    team: {
+      name: {
+        required
       }
     }
+  },
+  mounted () {
+    $('#createTeamModal').on('shown.bs.modal', () => {
+      $('#teamNameInput').trigger('focus')
+    })
+  },
+  methods: {
+    saveTeam () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      teamService.create(this.team).then((createdTeam) => {
+        this.$store.dispatch('addTeam', createdTeam)
+        this.close()
+      }).catch(error => {
+        this.errorMessage = error.message
+      })
+    },
+    close () {
+      this.$v.$reset()
+      this.team.name = ''
+      this.errorMessage = ''
+      $('#createTeamModal').modal('hide')
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>
