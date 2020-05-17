@@ -3,10 +3,8 @@ module.exports = {
     return this.api.launchUrl
   },
   elements: {
-    pageTitle: {
-      logoImage: {
-        selector: '.logo img'
-      }
+    logoImage: {
+      selector: '.logo img'
     }
   }
 }
