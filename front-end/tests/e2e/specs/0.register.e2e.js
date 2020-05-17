@@ -14,7 +14,7 @@ module.exports = {
     const name = chance.name().split(' ')
     user.firstName = name[0]
     user.lastName = name[1]
-    user.username = name[0].toLowerCase() + chance.integer({min: 0, max: 1000000})
+    user.username = name[0].toLowerCase() + chance.integer({ min: 0, max: 1000000 })
     user.emailAddress = user.username + '@e2e.trelloclone.com'
     user.password = 'MyPassword!'
 
@@ -51,7 +51,7 @@ module.exports = {
     browser
       .assert.urlEquals(browser.launchUrl + 'register')
       .end()
-  },
+  }
   // 'register with valid data': function (browser) {
   //   const registerPage = browser.page.RegisterPage()
   //

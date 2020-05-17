@@ -1,7 +1,6 @@
 import errorParser from '@/utils/error-parser'
 
 describe('utils/error-parser', () => {
-
   it('should parse HTTP 400 error', () => {
     const error = {
       response: {

@@ -30,7 +30,7 @@ module.exports = {
     browser
       .assert.urlEquals(browser.launchUrl + 'login')
       .end()
-  },
+  }
   // 'login with username': browser => {
   //   const loginPage = browser.page.LoginPage()
   //   const homePage = browser.page.HomePage()

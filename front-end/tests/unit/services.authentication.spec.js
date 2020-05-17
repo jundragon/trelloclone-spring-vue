@@ -46,7 +46,7 @@ describe('services/authentication', () => {
       request.reject({
         response: {
           status: 400,
-          data: {message: 'Bad request'}
+          data: { message: 'Bad request' }
         }
       })
     })

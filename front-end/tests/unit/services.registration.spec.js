@@ -28,12 +28,12 @@ describe('services/registration', () => {
   it('should propagate the error to caller when request failed', () => {
     expect.assertions(2)
     moxios.wait(() => {
-      let request = moxios.requests.mostRecent()
+      const request = moxios.requests.mostRecent()
       expect(request).toBeTruthy()
       request.reject({
         response: {
           status: 400,
-          data: {message: 'Bad request'}
+          data: { message: 'Bad request' }
         }
       })
     })
@@ -45,11 +45,11 @@ describe('services/registration', () => {
   it('should call `/registrations` API', () => {
     expect.assertions(1)
     moxios.wait(() => {
-      let request = moxios.requests.mostRecent()
+      const request = moxios.requests.mostRecent()
       expect(request.url).toEqual('/registrations')
       request.respondWith({
         status: 200,
-        response: {result: 'success'}
+        response: { result: 'success' }
       })
     })
     return registrationService.register()
