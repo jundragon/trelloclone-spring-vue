@@ -2,7 +2,7 @@
   <div class="page-header d-flex align-content-center">
     <div class="logo" @click="goHome()">
       <font-awesome-icon icon="home" class="home-icon" />
-      <img class="logo" src="/images/logo.png">
+      <img src="/images/logo.png">
     </div>
     <div class="boards-menu-toggle">
       <div class="dropdown">
@@ -45,40 +45,40 @@
 </template>
 
 <script>
-import 'bootstrap/dist/js/bootstrap.min'
-import { mapGetters } from 'vuex'
-import meService from '@/services/me'
-import notify from '@/utils/notify'
+  import 'bootstrap/dist/js/bootstrap.min'
+  import { mapGetters } from 'vuex'
+  import meService from '@/services/me'
+  import notify from '@/utils/notify'
 
-export default {
-  name: 'PageHeader',
-  computed: {
-    ...mapGetters([
-      'user',
-      'hasBoards',
-      'personalBoards',
-      'teamBoards'
-    ])
-  },
-  created () {
-    this.$store.dispatch('getMyData')
-  },
-  methods: {
-    goHome () {
-      this.$router.push({ name: 'home' })
+  export default {
+    name: 'PageHeader',
+    computed: {
+      ...mapGetters([
+        'user',
+        'hasBoards',
+        'personalBoards',
+        'teamBoards'
+      ])
     },
-    openBoard (board) {
-      this.$router.push({ name: 'board', params: { boardId: board.id } })
+    created () {
+      this.$store.dispatch('getMyData')
     },
-    signOut () {
-      meService.signOut().then(() => {
-        this.$router.push({name: 'login'})
-      }).catch(error => {
-        notify.error(error.message)
-      })
+    methods: {
+      goHome () {
+        this.$router.push({name: 'home'})
+      },
+      openBoard (board) {
+        this.$router.push({name: 'board', params: { boardId: board.id }})
+      },
+      signOut () {
+        meService.signOut().then(() => {
+          this.$router.push({name: 'login'})
+        }).catch(error => {
+          notify.error(error.message)
+        })
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -137,10 +137,6 @@ export default {
         font-size: 1rem;
         border: 1px solid #eee;
         border-radius: 5px;
-      }
-
-      input:focus {
-        border: 1px solid #377EF6;
       }
     }
   }

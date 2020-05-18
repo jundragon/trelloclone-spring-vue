@@ -21,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    private BoardRepository boardRepository;
-    private BoardManagement boardManagement;
-    private BoardMemberRepository boardMemberRepository;
-    private UserFinder userFinder;
-    private DomainEventPublisher domainEventPublisher;
+    private final BoardRepository boardRepository;
+    private final BoardManagement boardManagement;
+    private final BoardMemberRepository boardMemberRepository;
+    private final UserFinder userFinder;
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public List<Board> findBoardsByMembership(UserId userId) {

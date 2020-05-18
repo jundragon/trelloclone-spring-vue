@@ -17,7 +17,7 @@ public class Board extends AbstractBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BoardId id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 128, unique = true)
     private String name;
@@ -49,6 +49,10 @@ public class Board extends AbstractBaseEntity {
         board.archived = false;
         board.createdDate = LocalDateTime.now();
         return board;
+    }
+
+    public BoardId getId() {
+        return new BoardId(id);
     }
 
     public TeamId getTeamId() {
