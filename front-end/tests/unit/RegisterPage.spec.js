@@ -27,9 +27,6 @@ describe('RegisterPage.vue', () => {
       localVue,
       router,
       i18n,
-      mocks: {
-        $t: (msg) => i18n.t(msg)
-      }
     })
     fieldUsername = wrapper.find('#username')
     fieldEmailAddress = wrapper.find('#emailAddress')
@@ -52,20 +49,15 @@ describe('RegisterPage.vue', () => {
    * form 요소 검증 (화면 UI)
    */
   it('should render registration form', () => {
-    expect(wrapper.find('.logo').attributes().src)
-      .toEqual('/images/logo.png')
-    expect(wrapper.find('.tagline').text())
-      .toEqual('Open source task management tool')
-    expect(fieldUsername.exists())
-      .toBe(true)
-    expect(fieldUsername.element.value)
-      .toEqual('')
-    expect(fieldEmailAddress.element.value)
-      .toEqual('')
-    expect(fieldPassword.element.value)
-      .toEqual('')
-    expect(buttonSubmit.text())
-      .toEqual('Create account')
+    expect(wrapper.find('.logo').attributes().src).toEqual('/images/logo.png')
+    expect(wrapper.find('.tagline').text()).toEqual(
+      'Open source task management tool'
+    )
+    expect(fieldUsername.exists()).toBe(true)
+    expect(fieldUsername.element.value).toEqual('')
+    expect(fieldEmailAddress.element.value).toEqual('')
+    expect(fieldPassword.element.value).toEqual('')
+    expect(buttonSubmit.text()).toEqual('Create account')
   })
 
   /**

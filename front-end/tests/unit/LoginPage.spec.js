@@ -10,7 +10,7 @@ const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.use(VueRouter)
 const router = new VueRouter({
-  mode: 'history'
+  mode: 'history',
 })
 
 // Mock dependency registratioService
@@ -28,9 +28,6 @@ describe('LoginPage.vue', () => {
       localVue,
       router,
       i18n,
-      mocks: {
-        $t: (msg) => i18n.t(msg)
-      }
     })
     fieldUsername = wrapper.find('#username')
     fieldPassword = wrapper.find('#password')
@@ -49,17 +46,15 @@ describe('LoginPage.vue', () => {
   })
 
   it('should render login form', () => {
-    expect(wrapper.find('.logo').attributes().src)
-      .toEqual('/images/logo.png')
-    expect(wrapper.find('.tagline').text())
-      .toEqual('Open source task management tool')
+    expect(wrapper.find('.logo').attributes().src).toEqual('/images/logo.png')
+    expect(wrapper.find('.tagline').text()).toEqual(
+      'Open source task management tool'
+    )
     expect(fieldUsername.element.value).toEqual('')
     expect(fieldPassword.element.value).toEqual('')
     expect(buttonSubmit.text()).toEqual('Sign in')
-    expect(wrapper.find('.link-sign-up').attributes().href)
-      .toEqual('/register')
-    expect(wrapper.find('.link-forgot-password'))
-      .toBeTruthy()
+    expect(wrapper.find('.link-sign-up').attributes().href).toEqual('/register')
+    expect(wrapper.find('.link-forgot-password')).toBeTruthy()
   })
 
   it('should contain data model with initial values', () => {
@@ -74,8 +69,8 @@ describe('LoginPage.vue', () => {
     fieldUsername.setValue(username)
     fieldPassword.setValue(password)
 
-    expect(wrapper.vm.form.username = username).toEqual(username)
-    expect(wrapper.vm.form.password = password).toEqual(password)
+    expect((wrapper.vm.form.username = username)).toEqual(username)
+    expect((wrapper.vm.form.password = password)).toEqual(password)
   })
 
   it('should have form submit event handler `submitForm`', () => {
