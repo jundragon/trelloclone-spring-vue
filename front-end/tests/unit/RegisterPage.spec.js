@@ -18,6 +18,8 @@ describe('RegisterPage.vue', () => {
   let wrapper
   let fieldUsername
   let fieldEmailAddress
+  let fieldFirstName
+  let fieldLastName
   let fieldPassword
   let buttonSubmit
   let registerSpy
@@ -30,6 +32,8 @@ describe('RegisterPage.vue', () => {
     })
     fieldUsername = wrapper.find('#username')
     fieldEmailAddress = wrapper.find('#emailAddress')
+    fieldFirstName = wrapper.find('#firstName')
+    fieldLastName = wrapper.find('#lastName')
     fieldPassword = wrapper.find('#password')
     buttonSubmit = wrapper.find('form button[type="submit"]')
     // Create spy for registration service
@@ -56,6 +60,8 @@ describe('RegisterPage.vue', () => {
     expect(fieldUsername.exists()).toBe(true)
     expect(fieldUsername.element.value).toEqual('')
     expect(fieldEmailAddress.element.value).toEqual('')
+    expect(fieldFirstName.element.value).toEqual('')
+    expect(fieldLastName.element.value).toEqual('')
     expect(fieldPassword.element.value).toEqual('')
     expect(buttonSubmit.text()).toEqual('Create account')
   })
@@ -66,6 +72,8 @@ describe('RegisterPage.vue', () => {
   it('should contain data model with initial values', () => {
     expect(wrapper.vm.form.username).toEqual('')
     expect(wrapper.vm.form.emailAddress).toEqual('')
+    expect(wrapper.vm.form.firstName).toEqual('')
+    expect(wrapper.vm.form.lastName).toEqual('')
     expect(wrapper.vm.form.password).toEqual('')
   })
 
@@ -75,14 +83,20 @@ describe('RegisterPage.vue', () => {
   it('should have form inputs bound with data model', () => {
     const username = 'sunny'
     const emailAddress = 'sunny@taskagile.com'
+    const firstName = 'Sunny'
+    const lastName = 'Hu'
     const password = 'VueJsRocks!'
 
     fieldUsername.setValue(username)
     fieldEmailAddress.setValue(emailAddress)
+    fieldFirstName.setValue(firstName)
+    fieldLastName.setValue(lastName)
     fieldPassword.setValue(password)
 
     expect(wrapper.vm.form.username).toEqual(username)
     expect(wrapper.vm.form.emailAddress).toEqual(emailAddress)
+    expect(wrapper.vm.form.firstName).toEqual(firstName)
+    expect(wrapper.vm.form.lastName).toEqual(lastName)
     expect(wrapper.vm.form.password).toEqual(password)
   })
 
@@ -107,6 +121,8 @@ describe('RegisterPage.vue', () => {
     wrapper.vm.$router.push = stub
     wrapper.vm.form.username = 'sunny'
     wrapper.vm.form.emailAddress = 'sunny@taskagile.com'
+    wrapper.vm.form.firstName = 'Sunny'
+    wrapper.vm.form.lastName = 'Hu'
     wrapper.vm.form.password = 'JestRocks!'
     await wrapper.vm.submitForm()
     expect(registerSpy).toBeCalled()
@@ -123,6 +139,8 @@ describe('RegisterPage.vue', () => {
     // mock 에서는 오직 sunny@local 만 새로운 사용자
     wrapper.vm.form.username = 'ted'
     wrapper.vm.form.emailAddress = 'ted@taskagile.com'
+    wrapper.vm.form.firstName = 'Ted'
+    wrapper.vm.form.lastName = 'Test'
     wrapper.vm.form.password = 'JestRocks!'
     expect(wrapper.find('.failed').isVisible()).toBe(false)
     await wrapper.vm.submitForm()
@@ -136,16 +154,20 @@ describe('RegisterPage.vue', () => {
    */
   it('should fail when the email address is invalid', () => {
     const spy = jest.spyOn(registrationService, 'register')
+    wrapper.vm.form.username = 'test'
     wrapper.vm.form.emailAddress = 'bad-email-address'
+    wrapper.vm.form.firstName = 'User'
+    wrapper.vm.form.lastName = 'Test'
+    wrapper.vm.form.password = 'JestRocks!'
     wrapper.vm.submitForm()
-    expect(spy).not.toHaveBeenCalled()
-    spy.mockReset()
-    spy.mockRestore()
+    expect(registerSpy).not.toHaveBeenCalled()
   })
 
   it('should fail when the username is invalid', () => {
     wrapper.vm.form.username = 'a'
     wrapper.vm.form.emailAddress = 'test@taskagile.com'
+    wrapper.vm.form.firstName = 'User'
+    wrapper.vm.form.lastName = 'Test'
     wrapper.vm.form.password = 'JestRocks!'
     wrapper.vm.submitForm()
     expect(registerSpy).not.toHaveBeenCalled()
@@ -154,7 +176,30 @@ describe('RegisterPage.vue', () => {
   it('should fail when the password is invalid', () => {
     wrapper.vm.form.username = 'test'
     wrapper.vm.form.emailAddress = 'test@taskagile.com'
+    wrapper.vm.form.firstName = 'User'
+    wrapper.vm.form.lastName = 'Test'
     wrapper.vm.form.password = 'bad!'
+    wrapper.vm.submitForm()
+    expect(registerSpy).not.toHaveBeenCalled()
+  })
+
+  it('should fail when the first name is invalid', () => {
+    wrapper.vm.form.username = 'test'
+    wrapper.vm.form.emailAddress = 'test@taskagile.com'
+    wrapper.vm.form.firstName = ''
+    wrapper.vm.form.lastName = 'Test'
+    wrapper.vm.form.password = 'JestRocks!'
+    wrapper.vm.submitForm()
+    expect(registerSpy).not.toHaveBeenCalled()
+  })
+
+
+  it('should fail when the last name is invalid', () => {
+    wrapper.vm.form.username = 'test'
+    wrapper.vm.form.emailAddress = 'test@taskagile.com'
+    wrapper.vm.form.firstName = 'User'
+    wrapper.vm.form.lastName = ''
+    wrapper.vm.form.password = 'JestRocks!'
     wrapper.vm.submitForm()
     expect(registerSpy).not.toHaveBeenCalled()
   })

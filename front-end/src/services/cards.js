@@ -3,20 +3,21 @@ import errorParser from '@/utils/error-parser'
 
 export default {
   /**
-   * 현재 사용자의 이름, 보드, 팀 조회
+   * Add a new card
+   * @param {*} detail the card detail
    */
-  getMyData () {
+  add (detail) {
     return new Promise((resolve, reject) => {
-      axios.get('/me').then(({ data }) => {
+      axios.post('/cards', detail).then(({data}) => {
         resolve(data)
       }).catch((error) => {
         reject(errorParser.parse(error))
       })
     })
   },
-  signOut () {
+  changePositions (positionChanges) {
     return new Promise((resolve, reject) => {
-      axios.post('/me/logout').then(({data}) => {
+      axios.post('/cards/positions', positionChanges).then(({data}) => {
         resolve(data)
       }).catch((error) => {
         reject(errorParser.parse(error))
