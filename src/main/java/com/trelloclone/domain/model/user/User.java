@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -41,15 +42,15 @@ public class User extends AbstractBaseEntity {
     }
 
     /**
-     * Create new user during registration
+     * Create new user
      */
-    public static User create(String username, String emailAddress, String password) {
+    public static User create(String username, String emailAddress, String firsName, String lastName, String password) {
         User user = new User();
         user.username = username;
         user.emailAddress = emailAddress;
         user.password = password;
-        user.firstName = "";
-        user.lastName = "";
+        user.firstName = firsName;
+        user.lastName = lastName;
         user.createdDate = LocalDateTime.now();
         return user;
     }
@@ -57,6 +58,10 @@ public class User extends AbstractBaseEntity {
     public void updateName(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getInitials() {
+        return (firstName.substring(0, 1) + lastName.substring(0, 1)).toUpperCase();
     }
 
     @Override

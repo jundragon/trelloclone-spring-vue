@@ -3,11 +3,13 @@ package com.trelloclone.domain.application.impl;
 import com.trelloclone.domain.application.BoardService;
 import com.trelloclone.domain.application.commands.CreateBoardCommand;
 import com.trelloclone.domain.common.event.DomainEventPublisher;
-import com.trelloclone.domain.model.board.Board;
-import com.trelloclone.domain.model.board.BoardManagement;
-import com.trelloclone.domain.model.board.BoardRepository;
+import com.trelloclone.domain.model.board.*;
 import com.trelloclone.domain.model.board.event.BoardCreatedEvent;
+import com.trelloclone.domain.model.board.event.BoardMemberAddedEvent;
+import com.trelloclone.domain.model.user.User;
+import com.trelloclone.domain.model.user.UserFinder;
 import com.trelloclone.domain.model.user.UserId;
+import com.trelloclone.domain.model.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +21,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    private final BoardRepository boardRepository;
-    private final BoardManagement boardManagement;
-    private final DomainEventPublisher domainEventPublisher;
+    private BoardRepository boardRepository;
+    private BoardManagement boardManagement;
+    private BoardMemberRepository boardMemberRepository;
+    private UserFinder userFinder;
+    private DomainEventPublisher domainEventPublisher;
 
     @Override
     public List<Board> findBoardsByMembership(UserId userId) {
         return boardRepository.findBoardsByMembership(userId);
+    }
+
+    @Override
+    public Board findById(BoardId boardId) {
+        return boardRepository.findById(boardId);
+    }
+
+    @Override
+    public List<User> findMembers(BoardId boardId) {
+        return boardMemberRepository.findMembers(boardId);
     }
 
     @Override
@@ -34,5 +48,13 @@ public class BoardServiceImpl implements BoardService {
                 command.getDescription(), command.getTeamId());
         domainEventPublisher.publish(new BoardCreatedEvent(this, board));
         return board;
+    }
+
+    @Override
+    public User addMember(BoardId boardId, String usernameOrEmailAddress) throws UserNotFoundException {
+        User user = userFinder.find(usernameOrEmailAddress);
+        boardMemberRepository.add(boardId, user.getId());
+        domainEventPublisher.publish(new BoardMemberAddedEvent(this, boardId, user));
+        return user;
     }
 }

@@ -8,6 +8,7 @@ import com.trelloclone.domain.common.mail.MessageVariable;
 import com.trelloclone.domain.model.user.RegistrationManagement;
 import com.trelloclone.domain.model.user.SimpleUser;
 import com.trelloclone.domain.model.user.User;
+import com.trelloclone.domain.model.user.UserId;
 import com.trelloclone.domain.model.user.event.UserRegisteredEvent;
 import com.trelloclone.domain.model.user.exception.RegistrationException;
 import com.trelloclone.domain.model.user.repository.UserRepository;
@@ -47,12 +48,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(UserId userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
     public void register(RegistrationCommand command) throws RegistrationException {
         Assert.notNull(command, "Parameter `command` must not be null");
 
         User newUser = registrationManagement.register(
                 command.getUsername(),
                 command.getEmailAddress(),
+                command.getFirstName(),
+                command.getLastName(),
                 command.getPassword());
 
         sendWelcomeMessage(newUser);

@@ -46,6 +46,8 @@ class RegistrationApiControllerTest {
         payload.setUsername("exist");
         payload.setEmailAddress("test@taskagile.com");
         payload.setPassword("MyPassword!");
+        payload.setFirstName("User");
+        payload.setLastName("Test");
 
         doThrow(UsernameExistsException.class)
                 .when(serviceMock)
@@ -65,6 +67,8 @@ class RegistrationApiControllerTest {
         payload.setUsername("test");
         payload.setEmailAddress("exist@taskagile.com");
         payload.setPassword("MyPassword!");
+        payload.setFirstName("User");
+        payload.setLastName("Test");
 
         doThrow(EmailAddressExistsException.class)
                 .when(serviceMock)
@@ -84,6 +88,8 @@ class RegistrationApiControllerTest {
         payload.setUsername("sunny");
         payload.setEmailAddress("sunny@taskagile.com");
         payload.setPassword("MyPassword!");
+        payload.setFirstName("User");
+        payload.setLastName("Test");
 
         doNothing().when(serviceMock)
                 .register(payload.toCommand());

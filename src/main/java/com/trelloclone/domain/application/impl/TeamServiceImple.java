@@ -4,6 +4,7 @@ import com.trelloclone.domain.application.TeamService;
 import com.trelloclone.domain.application.commands.CreateTeamCommand;
 import com.trelloclone.domain.common.event.DomainEventPublisher;
 import com.trelloclone.domain.model.team.Team;
+import com.trelloclone.domain.model.team.TeamId;
 import com.trelloclone.domain.model.team.TeamRepository;
 import com.trelloclone.domain.model.team.event.TeamCreatedEvent;
 import com.trelloclone.domain.model.user.UserId;
@@ -23,6 +24,11 @@ public class TeamServiceImple implements TeamService {
     @Override
     public List<Team> findTeamsByUserId(UserId userId) {
         return teamRepository.findTeamsByUserId(userId);
+    }
+
+    @Override
+    public Team findById(TeamId teamId) {
+        return teamRepository.findById(teamId);
     }
 
     @Override

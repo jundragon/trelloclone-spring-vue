@@ -1,6 +1,7 @@
 package com.trelloclone.domain.model.user.repository;
 
 import com.trelloclone.domain.model.user.User;
+import com.trelloclone.domain.model.user.UserId;
 
 public interface UserRepository {
     /**
@@ -26,4 +27,6 @@ public interface UserRepository {
      * @return the newly save user
      */
     void save(User user);
+
+    User findById(UserId userId);
 }

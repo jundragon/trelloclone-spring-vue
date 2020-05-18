@@ -31,10 +31,12 @@ class RegistrationManagementTest {
         String username = "existUsername";
         String emailAddress = "sunny@taskagile.com";
         String password = "MyPassword!";
+        String firstName = "Existing";
+        String lastName = "User";
         // We just return an empty user object to indicate an existing user
         when(repositoryMock.findByUsername(username)).thenReturn(new User());
         assertThrows(UsernameExistsException.class, () -> {
-            instance.register(username, emailAddress, password);
+            instance.register(username, emailAddress, firstName, lastName, password);
         });
     }
 
@@ -43,10 +45,12 @@ class RegistrationManagementTest {
         String username = "sunny";
         String emailAddress = "exist@taskagile.com";
         String password = "MyPassword!";
+        String firstName = "Sunny";
+        String lastName = "Hu";
         // We just return an empty user object to indicate an existing user
         when(repositoryMock.findByEmailAddress(emailAddress)).thenReturn(new User());
         assertThrows(EmailAddressExistsException.class, () -> {
-            instance.register(username, emailAddress, password);
+            instance.register(username, emailAddress, firstName, lastName, password);
         });
     }
 
@@ -55,8 +59,10 @@ class RegistrationManagementTest {
         String username = "sunny";
         String emailAddress = "Sunny@TaskAgile.com";
         String password = "MyPassword!";
-        instance.register(username, emailAddress, password);
-        User userToSave = User.create(username, emailAddress.toLowerCase(), password);
+        String firstName = "Sunny";
+        String lastName = "Hu";
+        instance.register(username, emailAddress, firstName, lastName, password);
+        User userToSave = User.create(username, emailAddress.toLowerCase(), firstName, lastName, password);
         verify(repositoryMock).save(userToSave);
     }
 
@@ -66,7 +72,9 @@ class RegistrationManagementTest {
         String emailAddress = "sunny@taskagile.com";
         String password = "MyPassword!";
         String encryptedPassword = "EncryptedPassword";
-        User newUser = User.create(username, emailAddress, encryptedPassword);
+        String firstName = "Sunny";
+        String lastName = "Hu";
+        User newUser = User.create(username, emailAddress, firstName, lastName, encryptedPassword);
 
         // repository mock 설정
         // 사용자가 존재하지 않음을 나타내고자 null 값 반환
@@ -77,7 +85,7 @@ class RegistrationManagementTest {
         when(passwordEncryptorMock.encrypt(password))
                 .thenReturn("EncryptedPassword");
 
-        User savedUser = instance.register(username, emailAddress, password);
+        User savedUser = instance.register(username, emailAddress, firstName, lastName, password);
         InOrder inOrder = inOrder(repositoryMock);
         inOrder.verify(repositoryMock).findByUsername(username);
         inOrder.verify(repositoryMock).findByEmailAddress(emailAddress);

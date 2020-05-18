@@ -26,7 +26,7 @@ public class Board extends AbstractBaseEntity {
     private String description;
 
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
 
     @Column(name = "team_id")
     private Long teamId;
@@ -49,6 +49,14 @@ public class Board extends AbstractBaseEntity {
         board.archived = false;
         board.createdDate = LocalDateTime.now();
         return board;
+    }
+
+    public TeamId getTeamId() {
+        return teamId == null ? new TeamId(0) : new TeamId(teamId);
+    }
+
+    public boolean isPersonal() {
+        return teamId == null;
     }
 
     @Override
